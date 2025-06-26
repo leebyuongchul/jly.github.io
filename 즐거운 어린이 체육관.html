@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>즐거운 어린이 체육관 - 우리 아이의 빛나는 성장을 위한 선택!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght0;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Harmony (Amber/Orange tones) -->
+    <!-- Application Structure Plan: A top-down narrative SPA structure guiding parents from the general benefits of play PE to the specific advantages of our academy. It starts with a Hero section, moves to interactive cards explaining the 'Why' (Benefits: Body, Mind, Brain), then the 'How' (Our Strengths: Expertise, Customization, Safety), followed by a '수업 사진 갤러리' (Class Photo Gallery), then '학부모 후기' (Parent Reviews) section, and '교육 정보' (Educational Information) section, culminating in a 'Wow' moment with an interactive radar chart visualizing a child's potential growth over time, and finally, the Contact section. This structure follows a marketing funnel logic (AIDA) to maximize engagement and conversion, turning a static flyer into an exploratory journey. -->
+    <!-- Visualization & Content Choices: 1. Core Benefits (Body, Mind, Brain): Goal=Inform. Method=Interactive HTML cards with JS toggle. Justification=Breaks down info, encourages interaction. 2. Academy Strengths: Goal=Build Trust. Method=Interactive HTML cards. Justification=Consistent UI, highlights key differentiators. 3. 수업 사진 갤러리: Goal=Showcase/Build Trust. Method=HTML grid of placeholder images. Justification=Visually demonstrates class activities, builds emotional connection and trust. 4. 학부모 후기: Goal=Build Social Proof/Engage. Method=HTML list of sample reviews, simple JS form (simulated submission). Justification=Authenticity, encourages engagement and provides social proof. 5. 교육 정보: Goal=Educate/Inform. Method=Static text content with headings/paragraphs. Justification=Provides value, establishes authority and expertise. 6. Child's Growth: Goal=Visualize/Impact. Method=Chart.js Radar Chart updated via JS-powered buttons. Justification=Makes abstract benefit of 'growth' tangible and impressive, far more effective than text alone. CONFIRMED: No SVG/Mermaid used. Chart.js is used for visualization. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: #F59E0B;
+            margin: 16px auto 0;
+        }
+        .card-flip {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-flip.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-amber-50 text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+
+        <header class="text-center mb-16 md:mb-24">
+            <h1 class="text-4xl md:text-6xl font-black text-amber-600 mb-4 leading-tight">✨ 우리 아이의 빛나는 성장,</h1>
+            <p class="text-2xl md:text-4xl font-bold text-gray-700">즐거운 어린이 체육관에서 시작됩니다!</p>
+            <p class="mt-6 text-lg text-gray-600">15년 경력의 유아/초등 체육 전문가 원장이 직접 지도합니다.</p>
+            <a href="#contact" class="mt-8 inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-full transition-transform transform hover:scale-105">
+                상담 문의하기
+            </a>
+        </header>
+
+        <main>
+            <section id="why" class="mb-16 md:mb-24">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-12">🤸 왜 놀이체육일까요?</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                    단순한 신체 활동을 넘어, 우리 아이의 건강한 성장과 발달에 필수적인 놀이체육의 세 가지 핵심 가치를 알아보세요. 아래 카드를 클릭하여 자세한 내용을 확인하실 수 있습니다.
+                </p>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="interactive-card bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:-translate-y-2 transition-transform">
+                        <div class="flex items-center justify-center mb-4">
+                            <span class="text-5xl">💪</span>
+                            <h3 class="text-2xl font-bold ml-4">튼튼한 몸</h3>
+                        </div>
+                        <p class="text-gray-600 text-center">신체 발달, 건강 증진</p>
+                        <div class="details hidden mt-4 text-left text-gray-700 space-y-2">
+                            <p>✓ **기초 체력 향상:** 균형, 민첩성, 유연성 등 아이의 기본 운동 능력을 길러줍니다.</p>
+                            <p>✓ **면역력 강화:** 규칙적인 운동으로 잔병치레를 줄이고 건강하게 자랍니다.</p>
+                            <p>✓ **성장판 자극:** 키 성장과 신체 발달에 긍정적인 영향을 줍니다.</p>
+                        </div>
+                    </div>
+                    <div class="interactive-card bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:-translate-y-2 transition-transform">
+                         <div class="flex items-center justify-center mb-4">
+                            <span class="text-5xl">😊</span>
+                            <h3 class="text-2xl font-bold ml-4">밝은 마음</h3>
+                        </div>
+                        <p class="text-gray-600 text-center">사회성 발달, 자신감 향상</p>
+                        <div class="details hidden mt-4 text-left text-gray-700 space-y-2">
+                            <p>✓ **협동심/배려심:** 팀 활동을 통해 친구와 협력하는 법을 배웁니다.</p>
+                            <p>✓ **자신감 UP:** 작은 성공 경험들이 쌓여 긍정적인 자아를 형성합니다.</p>
+                            <p>✓ **즐거운 관계:** 또래와 어울리며 행복하고 건강한 관계를 맺습니다.</p>
+                        </div>
+                    </div>
+                    <div class="interactive-card bg-white p-6 rounded-xl shadow-lg cursor-pointer transform hover:-translate-y-2 transition-transform">
+                         <div class="flex items-center justify-center mb-4">
+                            <span class="text-5xl">🧠</span>
+                            <h3 class="text-2xl font-bold ml-4">똑똑한 뇌</h3>
+                        </div>
+                        <p class="text-gray-600 text-center">집중력 향상, 학습 능력 증진</p>
+                        <div class="details hidden mt-4 text-left text-gray-700 space-y-2">
+                            <p>✓ **두뇌 활성화:** 신체 활동은 뇌 발달에 직접적인 영향을 줍니다.</p>
+                            <p>✓ **집중력 향상:** 에너지를 건강하게 발산하여 학습 집중도를 높입니다.</p>
+                            <p>✓ **문제 해결 능력:** 다양한 놀이 규칙을 이해하며 생각하는 힘을 기릅니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="special" class="mb-16 md:mb-24">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-12">🌟 우리 학원만의 특별함</h2>
+                 <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                    수많은 학원 중 '즐거운 어린이 체육관'이 최고의 선택인 이유입니다. 저희는 전문성, 맞춤 교육, 안전을 약속하며 아이들의 성장을 책임집니다.
+                </p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <div class="text-amber-500 text-5xl mb-4">🏆</div>
+                        <h3 class="text-xl font-bold mb-2">15년 경력의 전문성</h3>
+                        <p class="text-gray-600">유아/초등 체육 교육 한 길만 걸어온 원장님의 검증된 노하우로 직접 지도합니다.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <div class="text-amber-500 text-5xl mb-4">🎯</div>
+                        <h3 class="text-xl font-bold mb-2">아이 중심 맞춤 교육</h3>
+                        <p class="text-gray-600">아이 한 명 한 명의 눈높이와 발달 단계에 맞춰 성취감과 즐거움을 선사합니다.</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <div class="text-amber-500 text-5xl mb-4">🛡️</div>
+                        <h3 class="text-xl font-bold mb-2">안전하고 쾌적한 환경</h3>
+                        <p class="text-gray-600">아이들이 마음껏 뛰어놀 수 있는 넓고 안전한 시설과 철저한 위생 관리를 자랑합니다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="gallery" class="mb-16 md:mb-24">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-12">📸 수업 사진 갤러리</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                    아이들이 즐겁게 뛰어노는 생생한 수업 현장의 모습을 확인해보세요. 모든 사진은 아이들의 활동에 대한 열정과 즐거움을 담고 있습니다.
+                </p>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <img src="https://placehold.co/400x300/FDBA74/fff?text=즐거운+수업1" alt="즐거운 수업 사진 1" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    <img src="https://placehold.co/400x300/FDBA74/fff?text=친구들과+함께" alt="친구들과 함께하는 활동" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    <img src="https://placehold.co/400x300/FDBA74/fff?text=활동적인+놀이" alt="활동적인 놀이 모습" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    <img src="https://placehold.co/400x300/FDBA74/fff?text=선생님과+함께" alt="선생님과 함께하는 수업" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    <img src="https://placehold.co/400x300/FDBA74/fff?text=에너지+발산" alt="에너지 발산하는 아이들" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    <img src="https://placehold.co/400x300/FDBA74/fff?text=성장+과정" alt="성장하는 아이들의 모습" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    <img src="https://placehold.co/400x300/FDBA74/fff?text=협동심+기르기" alt="협동심 기르는 활동" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    <img src="https://placehold.co/400x300/FDBA74/fff?text=웃음꽃+가득" alt="웃음꽃 피는 수업" class="w-full h-auto object-cover rounded-lg shadow-md">
+                </div>
+            </section>
+
+            <section id="reviews" class="mb-16 md:mb-24 bg-white p-8 md:p-12 rounded-2xl shadow-xl">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-12">💬 학부모 후기</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                    '즐거운 어린이 체육관'과 함께한 학부모님들의 소중한 경험담을 들어보세요. 우리 아이의 변화를 직접 경험하고 후기를 남겨주세요!
+                </p>
+                <div id="review-list" class="space-y-6 mb-12">
+                    <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
+                        <p class="font-semibold text-amber-700 mb-2">김OO 학부모님</p>
+                        <p class="text-gray-700">"아이가 학원에 가는 날을 손꼽아 기다려요. 예전엔 몸 움직이는 걸 싫어했는데, 이제는 친구들과 어울려 노는 걸 너무 좋아합니다. 자신감도 많이 붙었어요!"</p>
+                    </div>
+                    <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
+                        <p class="font-semibold text-amber-700 mb-2">박OO 학부모님</p>
+                        <p class="text-gray-700">"선생님께서 아이 하나하나 세심하게 신경 써주셔서 정말 감동했습니다. 체력도 좋아졌지만, 무엇보다 인내심과 집중력이 향상된 것 같아 기쁩니다."</p>
+                    </div>
+                    <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
+                        <p class="font-semibold text-amber-700 mb-2">이OO 학부모님</p>
+                        <p class="text-gray-700">"놀이체육이라고 해서 단순한 놀이인 줄 알았는데, 체계적인 커리큘럼과 전문적인 지도로 아이가 눈에 띄게 성장하는 것을 보니 놀랍습니다. 적극 추천합니다!"</p>
+                    </div>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-center mb-6">후기 작성</h3>
+                <div class="max-w-2xl mx-auto">
+                    <textarea id="review-textarea" class="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500 mb-4" rows="5" placeholder="아이의 변화와 학원에 대한 소중한 후기를 남겨주세요."></textarea>
+                    <button id="submit-review-btn" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                        후기 제출하기
+                    </button>
+                    <p id="review-message" class="mt-4 text-center text-green-600 font-semibold hidden">후기가 성공적으로 제출되었습니다. 감사합니다!</p>
+                </div>
+            </section>
+
+            <section id="education" class="mb-16 md:mb-24">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-center mb-12">📚 교육 정보: 우리 아이 발달 가이드</h2>
+                <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                    학부모님들이 궁금해하실 만한 유아 및 초등학생의 성장 발달과 놀이체육의 중요성에 대한 유익한 정보들을 제공합니다.
+                </p>
+                <div class="bg-white p-8 rounded-xl shadow-lg space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-amber-600 mb-3">유아기(5~7세) 신체 활동의 중요성</h3>
+                        <p class="text-gray-700">
+                            유아기는 신체 각 부분의 균형적인 성장이 이루어지는 중요한 시기입니다. 이 시기의 활발한 신체 활동은 대근육과 소근육 발달을 촉진하고, 균형감각과 민첩성을 길러줍니다. 또한, 다양한 움직임을 통해 신체 인지 능력을 향상시키고, 이는 곧 뇌 발달과 학습 능력 향상에도 긍정적인 영향을 미칩니다. 놀이를 통한 자연스러운 신체 활동은 아이들이 운동에 대한 긍정적인 인식을 형성하도록 돕습니다.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-amber-600 mb-3">초등학생(8~13세) 놀이체육의 효과</h3>
+                        <p class="text-gray-700">
+                            초등학생 시기에는 신체 능력뿐만 아니라 사회성 및 정서 발달이 활발하게 이루어집니다. 놀이체육은 단순한 운동을 넘어, 친구들과 함께하는 과정에서 협동심, 배려심, 리더십을 자연스럽게 키울 수 있는 장을 제공합니다. 규칙을 지키고, 승패를 받아들이며, 갈등을 해결하는 경험은 아이들의 사회성을 크게 향상시킵니다. 또한, 성취감을 통해 자존감을 높이고 스트레스를 해소하여 건강한 정서 발달을 돕습니다.
+                        </p>
+                    </div>
+                     <div>
+                        <h3 class="text-2xl font-bold text-amber-600 mb-3">건강한 성장, 영양 그리고 놀이체육</h3>
+                        <p class="text-gray-700">
+                            아이들의 건강한 성장은 적절한 영양 섭취와 규칙적인 신체 활동의 균형에서 비롯됩니다. 놀이체육은 아이들의 식욕을 증진시키고 소화를 돕는 동시에, 영양분이 신체 각 부분으로 효율적으로 전달되도록 돕습니다. 특히 성장기 아이들에게 중요한 뼈와 근육 발달에 필수적인 자극을 제공하며, 비만 예방 및 건강한 생활 습관 형성에도 큰 역할을 합니다. 균형 잡힌 영양과 즐거운 놀이체육이 만나 우리 아이의 최적의 성장을 이끌어냅니다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="growth" class="mb-16 md:mb-24 text-center">
+                <h2 class="section-title text-3xl md:text-4xl font-bold mb-12">📈 눈으로 보는 우리 아이 성장</h2>
+                 <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                    놀이체육은 아이의 잠재력을 깨우는 강력한 도구입니다. 아래 버튼을 눌러 시간에 따른 아이의 예상 성장 변화를 인터랙티브 차트로 확인해보세요.
+                </p>
+                <div class="bg-white p-4 sm:p-8 rounded-xl shadow-2xl">
+                    <div class="chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                    <div class="mt-8">
+                        <button class="chart-btn bg-amber-500 text-white py-2 px-4 rounded-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-opacity-50" data-month="1">1개월 후</button>
+                        <button class="chart-btn bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400" data-month="3">3개월 후</button>
+                        <button class="chart-btn bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400" data-month="6">6개월 후</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="contact" class="text-center bg-white p-8 md:p-12 rounded-2xl shadow-xl">
+                <h2 class="text-3xl font-bold mb-4">우리 아이의 잠재력을 깨우고 싶다면?</h2>
+                <p class="text-lg text-gray-600 mb-8">지금 바로 문의하여 전문가의 상담을 받아보세요!</p>
+                <div class="grid md:grid-cols-3 gap-8 text-left">
+                    <div class="info-item">
+                        <h4 class="font-bold text-amber-600 text-lg mb-1">📞 전화 문의</h4>
+                        <p class="text-xl text-gray-800 font-semibold">010-3361-5469</p>
+                    </div>
+                    <div class="info-item">
+                        <h4 class="font-bold text-amber-600 text-lg mb-1">📍 오시는 길</h4>
+                        <p class="text-xl text-gray-800 font-semibold">수원시 장안구 정자동 127-9 3층</p>
+                    </div>
+                    <div class="info-item">
+                        <h4 class="font-bold text-amber-600 text-lg mb-1">⏰ 운영 시간</h4>
+                        <p class="text-xl text-gray-800 font-semibold">평일 10:00 ~ 21:00</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const interactiveCards = document.querySelectorAll('.interactive-card');
+            interactiveCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const details = card.querySelector('.details');
+                    details.classList.toggle('hidden');
+                });
+            });
+
+            const chartData = {
+                '1': [3, 4, 3, 2, 4],
+                '3': [6, 7, 6, 5, 6],
+                '6': [9, 8, 8, 8, 9]
+            };
+            
+            const chartLabels = ['신체 조절', '협응력', '자신감', '사회성', '집중력'];
+
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            const growthChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: '성장 지수',
+                        data: chartData['1'],
+                        backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                        borderColor: 'rgba(245, 158, 11, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(245, 158, 11, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(245, 158, 11, 1)'
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#374151'
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                color: '#6b7280',
+                                stepSize: 2,
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            min: 0,
+                            max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.r !== null) {
+                                        label += context.parsed.r;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const chartBtns = document.querySelectorAll('.chart-btn');
+            chartBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const month = btn.dataset.month;
+                    growthChart.data.datasets[0].data = chartData[month];
+                    growthChart.update();
+
+                    chartBtns.forEach(b => {
+                        b.classList.remove('bg-amber-500', 'text-white');
+                        b.classList.add('bg-gray-300', 'text-gray-700');
+                    });
+                    btn.classList.add('bg-amber-500', 'text-white');
+                    btn.classList.remove('bg-gray-300', 'text-gray-700');
+                });
+            });
+
+            const submitReviewBtn = document.getElementById('submit-review-btn');
+            const reviewTextarea = document.getElementById('review-textarea');
+            const reviewMessage = document.getElementById('review-message');
+
+            submitReviewBtn.addEventListener('click', () => {
+                if (reviewTextarea.value.trim() !== '') {
+                    reviewTextarea.value = '';
+                    reviewMessage.classList.remove('hidden');
+                    setTimeout(() => {
+                        reviewMessage.classList.add('hidden');
+                    }, 3000); // 3초 후 메시지 숨기기
+                }
+            });
+        });
+    </script>
+</body>
+</html>
